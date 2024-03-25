@@ -120,3 +120,6 @@ carlos@ubuntu-Lenovo-IdeaPad-Z400:~/Documents/Fontes - Projetos/programacao/go$ 
 1
 1
 ```
+
+## Acesso a Dados no Go: sqlite
+
