@@ -206,12 +206,14 @@ As estruturas condicionais são usadas para controlar o fluxo de execução de u
 
 ### O if
 
-O condicional if é usada para verificar se uma condição é verdadeira ou falsa. Em go, o if não utiliza parentteses para delimitar a condição.
+O condicional if é usado para verificar se uma condição é verdadeira ou falsa. Em go, o if não utiliza parentteses para delimitar a condição.
 
  A sintaxe do if é a seguinte:
 
 ```golang
 package main
+
+import "fmt"
 
 func main() {
 
@@ -230,7 +232,64 @@ func main() {
 
 ### O switch
 
+O condicional switch em Go permite avaliar várias condições e executar o bloco de código correspondente. Diferentemente de algumas linguagens, Go não requer break após cada caso. O exemplo abaixo ilustra isso:
 
+```golang
+package main
+
+import "fmt"
+
+func main() {
+
+	numero := 2
+
+	switch numero {
+
+	case 1:
+		fmt.Println("O número é 1")
+
+	case 2:
+		fmt.Println("O número é 2")
+
+	default:
+		fmt.Println("Número não reconhecido")
+	}
+}
+```
+
+Neste exemplo simples de switch em Go:
+
+numero é avaliado em cada caso:
+
+- Se numero for 1, imprime "O número é 1".
+- Se numero for 2, imprime "O número é 2".
+- Se numero não corresponder a nenhum caso, o bloco default é executado, imprimindo "Número não reconhecido".
+
+Não é necessário utilizar break após cada caso, pois o comportamento padrão do switch em Go é sair do switch após executar o caso correspondente.
+
+### Switch com condicionais
+
+Neste exemplo o código abaixo ilustra como usar um switch em vez de múltiplos if e else if:
+
+```golang
+package main
+
+import "fmt"
+
+func main() {
+	a, b := 10, 15
+
+	// Switch para comparar dois números inteiros
+	switch {
+	case a > b:
+		fmt.Println("a é maior que b")
+	case a < b:
+		fmt.Println("a é menor que b")
+	default:
+		fmt.Println("a é igual a b")
+	}
+}
+```
 
 ## Funções
 

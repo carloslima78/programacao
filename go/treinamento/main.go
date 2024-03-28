@@ -1,15 +1,17 @@
 package main
 
-func main() {
+import "fmt"
 
+func main() {
 	a, b := 10, 15
 
-	// Comparando dois números inteiros
-	if a > b {
-		println("a é maior que b")
-	} else if a < b {
-		println("a é menor que b")
-	} else {
-		println("a é igual a b")
+	// Switch para comparar dois números inteiros
+	switch {
+	case a > b:
+		fmt.Println("a é maior que b")
+	case a < b:
+		fmt.Println("a é menor que b")
+	default:
+		fmt.Println("a é igual a b")
 	}
 }
