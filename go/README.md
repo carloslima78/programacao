@@ -362,6 +362,117 @@ func main() {
 Neste exemplo, a função **divide** tem dois retornos: resultado do tipo int e erro do tipo error. Se o divisor for zero, ela retorna um erro. No main, verificamos se há um erro após chamar a função divide e imprimimos a mensagem de erro.
 
 
+## Loops
+
+Loops são usados para repetir um bloco de código um determinado número de vezes. No Go, existe loop `for`,porém diferente de outras linguagens, o Go não possui um loop `while`.
+
+Abaixo, segue a forma mais simples de se usar um loop `for` em Go:
+
+```golang
+package main
+
+func main() {
+
+	for i := 0; i < 10; i++ {
+		println(i)
+	}
+}
+```
+
+O código abaixo demonstra três maneiras de iterar um array de strings:
+
+
+```golang
+package main
+
+func main() {
+
+	names := []string{"Carlos", "Kelli", "Carol"}
+
+	for i := 0; i < len(names); i++ {
+		println(names[i])
+	}
+
+	for _, name := range names {
+		println(name)
+	}
+
+	for i, name := range names {
+		println(i, name)
+	}
+}
+```
+
+- O primeiro método **(for i := 0; i < len(names); i++)** é tradicional e útil quando você precisa acessar os índices do array.
+- O segundo método **(for _, name := range names)** é conveniente quando você só precisa dos valores do array e não dos índices.
+- O terceiro método **(for i, name := range names)** é ótimo para quando você precisa tanto dos índices quanto dos valores do array.
+
+### Loop com Condição Simplificada: Controle manual do índice
+
+No exemplo abaixo, usamos um loop for com uma condição simplificada. A variável i é declarada fora do loop e verificamos i < len(names) dentro do for. Em cada iteração, o elemento names[i] é impresso e i é incrementado. Isso oferece uma abordagem mais sucinta e fácil de entender:
+
+```golang
+package main
+
+func main() {
+
+	names := []string{"Carlos", "Kelli", "Carol"}
+
+	var i int
+
+	for i < len(names) {
+		println(names[i])
+		i++
+	}
+}
+```
+
+Este loop é útil quando queremos iterar sobre um array, mantendo o controle manual do índice. É uma alternativa clara e direta ao for tradicional com inicialização, condição e incremento.
+
+
+### Loop for{} infinito
+
+O laço for {} em Go é uma estrutura de loop infinito que é comumente usada em contextos de workers. Este tipo de loop é frequentemente utilizado para criar workers (trabalhadores) em Go, onde cada iteração do loop representa uma goroutine separada que executa uma determinada tarefa.
+
+Por exemplo, em um sistema de processamento de filas, você pode ter um loop for {} que continua rodando para sempre. Dentro desse loop, você pode usar um canal para receber tarefas a serem executadas. Cada vez que uma tarefa é recebida do canal, uma nova goroutine é criada para processar essa tarefa.
+
+A estrutura básica seria algo assim:
+
+```golang
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func worker() {
+	i := 1
+
+	// for infinito
+	for {
+		// Imprime a contagem atual
+		fmt.Println("Contagem infinita:", i)
+		i++
+
+		// Simula o processamento contínuo
+		time.Sleep(time.Second)
+	}
+}
+
+func main() {
+	fmt.Println("Iniciando worker...")
+
+	// Inicia o worker em uma goroutine
+	go worker()
+	fmt.Println("Worker iniciado.")
+
+	// Espera um pouco antes de encerrar o programa (para observar a contagem)
+	time.Sleep(time.Second * 10)
+	fmt.Println("Programa encerrado.")
+}
+```
+
 ### Array 
 
 ### Slice

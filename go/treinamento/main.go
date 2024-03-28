@@ -1,17 +1,32 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
+func worker() {
+	i := 1
+
+	// for infinito
+	for {
+		// Imprime a contagem atual
+		fmt.Println("Contagem infinita:", i)
+		i++
+
+		// Simula o processamento contínuo
+		time.Sleep(time.Second)
+	}
+}
 
 func main() {
-	a, b := 10, 15
+	fmt.Println("Iniciando worker...")
 
-	// Switch para comparar dois números inteiros
-	switch {
-	case a > b:
-		fmt.Println("a é maior que b")
-	case a < b:
-		fmt.Println("a é menor que b")
-	default:
-		fmt.Println("a é igual a b")
-	}
+	// Inicia o worker em uma goroutine
+	go worker()
+	fmt.Println("Worker iniciado.")
+
+	// Espera um pouco antes de encerrar o programa (para observar a contagem)
+	time.Sleep(time.Second * 10)
+	fmt.Println("Programa encerrado.")
 }
