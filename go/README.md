@@ -200,8 +200,107 @@ x, y = y, x
 fmt.Println("Depois da troca:", x, y)
 ```
 
+## Condicionais
+
+As estruturas condicionais são usadas para controlar o fluxo de execução de um programa Go. No Go, existem dois tipos de estruturas condicionais: `if` e `switch`.
+
+### O if
+
+O condicional if é usada para verificar se uma condição é verdadeira ou falsa. Em go, o if não utiliza parentteses para delimitar a condição.
+
+ A sintaxe do if é a seguinte:
+
+```golang
+package main
+
+func main() {
+
+	a, b := 10, 15
+
+	// Comparando dois números inteiros
+	if a > b {
+		println("a é maior que b")
+	} else if a < b {
+		println("a é menor que b")
+	} else {
+		println("a é igual a b")
+	}
+}
+```
+
+### O switch
+
+
+
 ## Funções
 
+Funções são blocos de código que podem ser reutilizados em um programa Go. Para declarar uma função, use a seguinte sintaxe:
+
+
+```golang
+package main
+
+import (
+	"fmt"
+)
+
+func hello(nome string) {
+	fmt.Println("Olá", nome, "!")
+}
+
+func sum(a, b int) int {
+	return a + b
+}
+
+func main() {
+
+	hello("João")
+
+	fmt.Println("Sua idade é:", sum(10, 20), "anos")
+}
+```
+
+### Funções com múltiplos retornos
+
+Em Go é comum usar funções com mais de um retorno, especialmente para lidar com possíveis erros. Por exemplo:
+
+```golang
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// Função divide recebe dois inteiros e retorna um inteiro e um erro
+func divide(a, b int) (int, error) {
+	if b == 0 {
+		return 0, errors.New("divisão por zero")
+	}
+	return a / b, nil
+}
+
+// A função main é onde a execução do programa começa.
+func main() {
+	// Chamando a função divide com 10 como dividendo e 2 como divisor
+	resultado, err := divide(10, 2)
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println("Resultado da divisão:", resultado)
+	}
+
+	// Chamando a função divide com 10 como dividendo e 0 como divisor
+	resultado, err = divide(10, 0)
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println("Resultado da divisão:", resultado)
+	}
+}
+```
+
+Neste exemplo, a função **divide** tem dois retornos: resultado do tipo int e erro do tipo error. Se o divisor for zero, ela retorna um erro. No main, verificamos se há um erro após chamar a função divide e imprimimos a mensagem de erro.
 
 
 ### Array 

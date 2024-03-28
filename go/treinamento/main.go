@@ -1,20 +1,15 @@
 package main
 
-import (
-	"fmt"
-)
-
-func hello(nome string) {
-	fmt.Println("Olá", nome, "!")
-}
-
-func sum(a, b int) int {
-	return a + b
-}
-
 func main() {
 
-	hello("João")
+	a, b := 10, 15
 
-	fmt.Println("Sua idade é:", sum(10, 20), "anos")
+	// Comparando dois números inteiros
+	if a > b {
+		println("a é maior que b")
+	} else if a < b {
+		println("a é menor que b")
+	} else {
+		println("a é igual a b")
+	}
 }
