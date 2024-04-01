@@ -1,32 +1,19 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
-
-func worker() {
-	i := 1
-
-	// for infinito
-	for {
-		// Imprime a contagem atual
-		fmt.Println("Contagem infinita:", i)
-		i++
-
-		// Simula o processamento contínuo
-		time.Sleep(time.Second)
-	}
-}
+import "fmt"
 
 func main() {
-	fmt.Println("Iniciando worker...")
+	// Cria um array de tamanho fixo de strings
+	var nomes [3]string
 
-	// Inicia o worker em uma goroutine
-	go worker()
-	fmt.Println("Worker iniciado.")
+	// Atribui valores aos elementos do array
+	nomes[0] = "João"
+	nomes[1] = "Maria"
+	nomes[2] = "Pedro"
 
-	// Espera um pouco antes de encerrar o programa (para observar a contagem)
-	time.Sleep(time.Second * 10)
-	fmt.Println("Programa encerrado.")
+	// Imprime o array
+	fmt.Println(nomes)
+
+	// Acessando elementos do array
+	fmt.Println(nomes[0]) // Imprime "João"
 }

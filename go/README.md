@@ -432,7 +432,7 @@ Este loop é útil quando queremos iterar sobre um array, mantendo o controle ma
 
 ### Loop for{} infinito
 
-O laço for {} em Go é uma estrutura de loop infinito que é comumente usada em contextos de workers. Este tipo de loop é frequentemente utilizado para criar workers (trabalhadores) em Go, onde cada iteração do loop representa uma goroutine separada que executa uma determinada tarefa.
+O laço `for {}` em Go é uma estrutura de loop infinito que é comumente usada em contextos de workers. Este tipo de loop é frequentemente utilizado para criar workers (trabalhadores) em Go, onde cada iteração do loop representa uma goroutine separada que executa uma determinada tarefa.
 
 Por exemplo, em um sistema de processamento de filas, você pode ter um loop for {} que continua rodando para sempre. Dentro desse loop, você pode usar um canal para receber tarefas a serem executadas. Cada vez que uma tarefa é recebida do canal, uma nova goroutine é criada para processar essa tarefa.
 
@@ -473,11 +473,210 @@ func main() {
 }
 ```
 
+## Tipos Complexos
+
+Tipos complexos em Go são 
+
 ### Array 
+
+Em Go, um `array` é uma estrutura de dados estática que representa uma coleção fixa de elementos do mesmo tipo. Ele é definido com um tamanho específico durante a declaração e não pode ser alterado após a criação.
+
+```golang
+package main
+
+import "fmt"
+
+func main() {
+
+	// Cria um array de tamanho fixo de strings
+	var nomes [3]string
+
+	// Atribui valores aos elementos do array
+	nomes[0] = "João"
+	nomes[1] = "Maria"
+	nomes[2] = "Pedro"
+
+	// Imprime o array
+	fmt.Println(nomes)
+
+	// Acessando elementos do array
+	fmt.Println(nomes[0]) // Imprime "João"
+}
+```
+
+Neste exemplo, o array nomes é declarado com tamanho fixo de 3 elementos do tipo string. Os valores são atribuídos aos elementos individualmente. Como o array tem tamanho fixo, não podemos adicionar ou remover elementos após a sua criação. O acesso aos elementos é feito utilizando índices, como nomes[0] para acessar o primeiro elemento.
+
+**Resumo:**
+
+- Um array tem um tamanho fixo e é declarado com [Tamanho]Tipo.
+- Os elementos de um array são acessados por índices.
+- É estático e não pode ser alterado após a criação.
+- Útil quando o tamanho é conhecido e não muda.
 
 ### Slice
 
-### Struct
+Em Go, um `slice` slice é uma estrutura de dados dinâmica que representa uma fatia de um array. Ele possui um tamanho dinâmico e uma capacidade (ou tamanho do array subjacente), permitindo que cresça conforme necessário e pode ser considerado como tendo um tamanho "infinito" em termos de sua capacidade de expansão, pois o Go gerencia automaticamente a alocação de memória conforme mais elementos são adicionados. Isso permite que o slice cresça conforme necessário, sem a necessidade de especificar previamente seu tamanho máximo.
+
+
+```golang
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+
+	// Cria um slice de strings
+	names := []string{"Tiago", "Daniel", "João"}
+	fmt.Println(names)
+
+    // Adiciona um novo elemento ao slice
+	names = append(names, "Pedro")
+	fmt.Println(names)
+
+    
+	// Adiciona um novo elemento ao slice, 
+	names = append(names, "João")
+	fmt.Println(names, len(names), cap(names))
+}
+```
+
+Conforme o exemplo de código acima:
+
+- `names := []string{"Tiago", "Daniel", "João"}` cria um slice de strings.
+- `append(names, "Pedro")` adiciona "Pedro" ao slice, automaticamente expandindo conforme necessário.
+- `append(names, "João")` adiciona "João" ao slice, mostrando sua capacidade dinâmica.
+- `len(names)` retorna o comprimento atual do slice (5 elementos).
+- `cap(names)` retorna a capacidade atual (8 elementos, expandindo conforme necessário).
+
+
+### Array vs Slice
+
+**Array:**
+
+- Um array em Go é uma coleção fixa de elementos do mesmo tipo.
+- Seu tamanho é definido na declaração e não pode ser alterado.
+- A declaração de um array seria assim:
+
+```golang
+var nomes [3]string // Array de strings com tamanho 3
+nomes[0] = "João"
+nomes[1] = "Maria"
+nomes[2] = "Pedro"
+```
+
+**Slice:**
+
+- Um slice em Go é uma "fatia" dinâmica de um array, permitindo um tamanho flexível.
+- Não precisa de um tamanho definido na declaração.
+- A declaração de um slice seria assim:
+
+```golang
+nomes := []string{"João", "Maria", "Pedro"} // Slice de strings
+```
+
+### Map
+
+Em Go, um `map` é uma estrutura de dados que mapeia chaves únicas para valores associados. Ele é semelhante a um dicionário em outras linguagens. 
+
+```golang
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+
+	// Create a map of names and ages
+	people := make(map[string]int32)
+	people["João"] = 45
+	people["Maria"] = 42
+	people["Antônio"] = 39
+
+	// Print the map
+	fmt.Println("People:", people)
+	// output
+	// People: map[João:45 Maria:42 Antônio:39]
+
+	// Get the age of Maria
+	name, ok := people["Maria"]
+	fmt.Println(name, ok)
+	// output
+	// Maria 42 true
+
+	// Try to get the age of Pedro
+	name, ok = people["Pedro"]
+	fmt.Println(name, ok)
+	// output
+	// 0 false
+}
+```
+
+- `people := make(map[string]int32)` cria um map onde as chaves são strings e os valores são inteiros de 32 bits.
+- `people["João"] = 45, people["Maria"] = 42, people["Antônio"] = 39` adicionam valores ao map associados às chaves correspondentes.
+- `fmt.Println("People:", people)` imprime o map completo.
+  - **Saída:** `People: map[João:45 Maria:42 Antônio:39]`
+- `name, ok := people["Maria"]` obtém o valor associado à chave "Maria" e verifica se a chave existe.
+  - **Saída:** `Maria 42 true`
+- `name, ok = people["Pedro"]` tenta obter o valor associado à chave "Pedro", mas como essa chave não existe, o valor zero para o tipo (0 para int32) é retornado e ok é false.
+  - **Saída**: `0 false`
+
+ Em resumo, um map em Go é uma coleção de pares chave-valor onde as chaves são únicas e os valores podem ser recuperados rapidamente com base na chave. O uso do map permite uma busca eficiente e fácil acesso aos valores associados às chaves.
+
+
+### Struct 
+
+Em Go, uma `struct` é uma coleção de campos que agrupa dados de diferentes tipos relacionados. A técnica para atributos públicos e privados em uma struct é determinada pela letra inicial do nome do campo:
+
+```golang
+package main
+
+import "fmt"
+
+type Client struct {
+	Name   string
+	age    int
+	Email  string
+	Phone  string
+	Status bool
+}
+
+func main() {
+
+	// Cria um novo cliente com os valores especificados
+	client := Client{
+		Name:   "John Doe",
+		age:    30,
+		Email:  "john.doe@example.com",
+		Phone:  "123-456-7890",
+		Status: true, // O Go exige que sempre termine com vírgula
+	}
+
+	fmt.Println(client) // Imprime o cliente no console
+
+	fmt.Println(client.Name, client.Email) // Imprime o nome e o e-mail do cliente no console
+}
+```
+
+- `type Client struct { ... }` define a estrutura Client com campos para informações de um cliente.
+- `client := Client{ ... }` cria um novo cliente com valores específicos para cada campo.
+- `fmt.Println(client)` imprime todos os campos do cliente no console.
+  - **Saída:** `{John Doe 30 john.doe@example.com 123-456-7890 true}`
+- `fmt.Println(client.Name, client.Email)` imprime o nome e o e-mail do cliente.
+  - **Saída:** `John Doe john.doe@example.com`
+
+Neste exemplo, client é uma instância da estrutura Client, que funciona como um "array" de campos com nome e tipo definidos. Cada campo pode ser acessado usando o ponto (.) seguido pelo nome do campo (client.Name, client.Email, etc.).
+
+
+#### Visibilidade
+
+- Campos começando com letra maiúscula são públicos e podem ser acessados fora do pacote.
+- Campos começando com letra minúscula são privados e só podem ser acessados dentro do mesmo pacote.
+
+Conforme o exemplo de código acima, `Name` é um campo público, permitindo acesso fora da struct, enquanto `age` é privado e só pode ser acessado dentro do mesmo pacote. É uma técnica comum em Go para controlar a visibilidade e encapsulamento dos dados em uma struct.
+
 
 ## Gerando Binário no Ubuntu
 
