@@ -857,6 +857,95 @@ func main() {
 Neste exemplo, `HasParent` verifica se uma categoria tem um pai, enquanto `SetFather` atribui um pai a uma categoria. Ambos os métodos são definidos com um receptor de ponteiro (*Category), permitindo que modifiquem diretamente a estrutura Category original em que são chamados.
 
 
+## Herança
+
+Em Go, não existe o conceito de herança da forma tradicional presente em algumas linguagens de programação orientada a objetos. Em vez disso, Go utiliza composição e interfaces para alcançar reutilização de código e polimorfismo.
+
+### Composição em Go
+
+- Em Go, é comum usar a composição para reutilizar funcionalidades de outros tipos.
+- A composição permite que um tipo contenha outro tipo como um campo.
+- Não há herança de membros de estrutura, mas sim incorporação (embedding) de tipos.
+
+
+```golang
+package main
+
+import "fmt"
+
+// Definindo um tipo Veiculo básico
+type Veiculo struct {
+	Modelo string
+	Ano    int
+}
+
+// Método para parar um veículo
+func (v Veiculo) Parar() {
+	fmt.Printf("O veículo %s está parado.\n", v.Modelo)
+}
+
+// Definindo um tipo Carro que incorpora Veiculo
+type Carro struct {
+	Veiculo // Incorporação do tipo Veiculo
+	Motor   string
+}
+
+// Método para o carro andar
+func (c Carro) Andar() {
+	fmt.Printf("O carro %s está andando com seu motor %s...\n", c.Modelo, c.Motor)
+}
+
+// Definindo um tipo Barco que incorpora Veiculo
+type Barco struct {
+	Veiculo // Incorporação do tipo Veiculo
+	Helice  string
+}
+
+// Método para o barco navegar
+func (b Barco) Navegar() {
+	fmt.Printf("O barco %s está navegando com sua hélice %s...\n", b.Modelo, b.Helice)
+}
+
+func main() {
+	
+	// Criando um Carro
+	carro := Carro{
+		Veiculo: Veiculo{Modelo: "Fusca", Ano: 1972},
+		Motor:   "V8",
+	}
+
+	// Criando um Barco
+	barco := Barco{
+		Veiculo: Veiculo{Modelo: "Lancha", Ano: 2020},
+		Helice:  "Marinha 3000",
+	}
+
+	// Chamando o método Andar para o Carro
+	carro.Andar()
+
+	// Chamando o método Navegar para o Barco
+	barco.Navegar()
+
+	// Chamando o método Parar para ambos os veículos
+	carro.Parar()
+	barco.Parar()
+}
+```
+
+Neste exemplo, criamos os tipos Veiculo, Carro, e Barco, onde Carro e Barco herdam características do tipo Veiculo. Além disso, cada tipo possui atributos específicos que representam suas características únicas.
+
+- `Veiculo`: É um tipo básico que representa as características comuns de um veículo, como o modelo e o ano.
+
+- `Carro`: É um tipo que incorpora Veiculo e também possui um atributo específico, Motor, que representa o motor do carro.
+
+- `Barco`: Também incorpora Veiculo e possui um atributo específico, Helice, que representa a hélice do barco.
+
+- Os métodos `Andar` e `Navegar` são específicos para `Carro` e `Barco`, respectivamente. Eles demonstram a ação de andar para um carro e navegar para um barco, utilizando seus atributos específicos.
+
+- O método `Parar` é comum a todos os tipos, pois um veículo de qualquer tipo pode ser parado.
+
+No `main`, criamos uma instância de `Carro` e `Barco` com seus respectivos atributos específicos (`Motor` e `Helice`), e demonstramos o uso dos métodos `Andar`, `Navegar`, e `Parar` para cada veículo. Esta abordagem de herança e atributos específicos é bastante útil para representar objetos do mundo real de forma clara e eficiente em Go.
+
 ## Gerando Binário no Ubuntu
 
 
