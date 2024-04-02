@@ -2,18 +2,53 @@ package main
 
 import "fmt"
 
+type Client struct {
+	Name   string
+	Age    int
+	Email  string
+	Phone  string
+	Status bool
+	Father *Client // Autorelacionamento: Ponteiro para outro Client
+}
+
 func main() {
-	// Cria um array de tamanho fixo de strings
-	var nomes [3]string
+	// Criando instâncias de Client
+	child := Client{
+		Name:   "João",
+		Age:    30,
+		Email:  "joao@example.com",
+		Phone:  "123-456-7890",
+		Status: true,
+	}
 
-	// Atribui valores aos elementos do array
-	nomes[0] = "João"
-	nomes[1] = "Maria"
-	nomes[2] = "Pedro"
+	father := Client{
+		Name:   "Pedro",
+		Age:    25,
+		Email:  "pedro@example.com",
+		Phone:  "987-654-3210",
+		Status: true,
+	}
 
-	// Imprime o array
-	fmt.Println(nomes)
+	// Estabelecendo a relação "pai-filho"
+	child.Father = &father
 
-	// Acessando elementos do array
-	fmt.Println(nomes[0]) // Imprime "João"
+	// Imprimindo informações
+	fmt.Println("Cliente 1:")
+	fmt.Println("Nome:", child.Name)
+	fmt.Println("Idade:", child.Age)
+	fmt.Println("E-mail:", child.Email)
+	fmt.Println("Telefone:", child.Phone)
+	fmt.Println("Status:", child.Status)
+	if child.Father != nil {
+		fmt.Println("Pai:", child.Father.Name)
+	} else {
+		fmt.Println("Pai: Nenhum")
+	}
+
+	fmt.Println("\nCliente 2:")
+	fmt.Println("Nome:", father.Name)
+	fmt.Println("Idade:", father.Age)
+	fmt.Println("E-mail:", father.Email)
+	fmt.Println("Telefone:", father.Phone)
+	fmt.Println("Status:", father.Status)
 }

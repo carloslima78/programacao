@@ -475,7 +475,42 @@ func main() {
 
 ## Tipos Complexos
 
-Tipos complexos em Go são 
+Os tipos complexos em Go são estruturas de dados que podem armazenar múltiplos valores de tipos diferentes. São amplamente utilizados para modelar e organizar dados de maneira eficiente e flexível, oferecendo recursos poderosos para lidar com diferentes cenários de programação. 
+
+Alguns exemplos são:
+
+1. **Array:** Uma coleção fixa de elementos do mesmo tipo, com tamanho definido na declaração. 
+Exemplo:
+
+```golang
+numeros := [5]int{1, 2, 3, 4, 5}
+```
+
+2. **Slice:** Uma "fatia" dinâmica de um array, permitindo um tamanho flexível. 
+Exemplo:
+
+```golang
+numeros := []int{1, 2, 3, 4, 5}
+```
+
+3. **Map:** Uma coleção de pares chave-valor, onde cada chave é única. 
+Exemplo:
+
+```golang
+pessoas := map[string]int{"João": 30, "Maria": 25, "Pedro": 28}
+```
+
+4. **Struct:** Uma estrutura de dados que agrupa campos de diferentes tipos. 
+Exemplo:
+
+```golang
+type Pessoa struct {
+    Nome string
+    Idade int
+}
+
+pessoa := Pessoa{"Ana", 35}
+```
 
 ### Array 
 
@@ -670,6 +705,75 @@ func main() {
 Neste exemplo, client é uma instância da estrutura Client, que funciona como um "array" de campos com nome e tipo definidos. Cada campo pode ser acessado usando o ponto (.) seguido pelo nome do campo (client.Name, client.Email, etc.).
 
 
+#### Auto Relacionamento - Ponteiro
+
+Trata-se da técnica de autorelacionamento por ponteiro, onde uma estrutura (struct) pode conter um campo que é um ponteiro para outra instância da mesma estrutura. 
+
+Isso permite criar relações hierárquicas dentro da mesma estrutura de dados, como um "pai" que pode ter um "filho" que também é do mesmo tipo. O campo Father na estrutura Client é um exemplo de autorelacionamento usando ponteiro.
+
+```golang
+package main
+
+import "fmt"
+
+type Client struct {
+	Name   string
+	Age    int
+	Email  string
+	Phone  string
+	Status bool
+	Father *Client // Autorelacionamento: Ponteiro para outro Client
+}
+
+func main() {
+	
+	// Criando instâncias de Client
+	child := Client{
+		Name:   "João",
+		Age:    30,
+		Email:  "joao@example.com",
+		Phone:  "123-456-7890",
+		Status: true,
+	}
+
+	father := Client{
+		Name:   "Pedro",
+		Age:    25,
+		Email:  "pedro@example.com",
+		Phone:  "987-654-3210",
+		Status: true,
+	}
+
+	// Estabelecendo a relação "pai-filho"
+	child.Father = &father
+
+	// Imprimindo informações
+	fmt.Println("Cliente 1:")
+	fmt.Println("Nome:", child.Name)
+	fmt.Println("Idade:", child.Age)
+	fmt.Println("E-mail:", child.Email)
+	fmt.Println("Telefone:", child.Phone)
+	fmt.Println("Status:", child.Status)
+	if child.Father != nil {
+		fmt.Println("Pai:", child.Father.Name)
+	} else {
+		fmt.Println("Pai: Nenhum")
+	}
+
+	fmt.Println("\nCliente 2:")
+	fmt.Println("Nome:", father.Name)
+	fmt.Println("Idade:", father.Age)
+	fmt.Println("E-mail:", father.Email)
+	fmt.Println("Telefone:", father.Phone)
+	fmt.Println("Status:", father.Status)
+}
+```
+
+Neste exemplo, criamos duas instâncias de `Client` chamadas `child` e `father`. O `child` é "João" e o `father` é "Pedro". Em seguida, estabelecemos a relação "pai-filho" onde child aponta para father como seu "pai". 
+
+Ao imprimir as informações, podemos ver que `child` tem um "pai" definido como `father`, demonstrando o autorelacionamento usando um ponteiro para outra instância da mesma estrutura.
+
+
 #### Visibilidade
 
 - Campos começando com letra maiúscula são públicos e podem ser acessados fora do pacote.
@@ -677,6 +781,9 @@ Neste exemplo, client é uma instância da estrutura Client, que funciona como u
 
 Conforme o exemplo de código acima, `Name` é um campo público, permitindo acesso fora da struct, enquanto `age` é privado e só pode ser acessado dentro do mesmo pacote. É uma técnica comum em Go para controlar a visibilidade e encapsulamento dos dados em uma struct.
 
+## Funções
+
+Em Go métodos 
 
 ## Gerando Binário no Ubuntu
 
