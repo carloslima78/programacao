@@ -291,77 +291,6 @@ func main() {
 }
 ```
 
-## Funções
-
-Funções são blocos de código que podem ser reutilizados em um programa Go. Para declarar uma função, use a seguinte sintaxe:
-
-
-```golang
-package main
-
-import (
-	"fmt"
-)
-
-func hello(nome string) {
-	fmt.Println("Olá", nome, "!")
-}
-
-func sum(a, b int) int {
-	return a + b
-}
-
-func main() {
-
-	hello("João")
-
-	fmt.Println("Sua idade é:", sum(10, 20), "anos")
-}
-```
-
-### Funções com múltiplos retornos
-
-Em Go é comum usar funções com mais de um retorno, especialmente para lidar com possíveis erros. Por exemplo:
-
-```golang
-package main
-
-import (
-	"errors"
-	"fmt"
-)
-
-// Função divide recebe dois inteiros e retorna um inteiro e um erro
-func divide(a, b int) (int, error) {
-	if b == 0 {
-		return 0, errors.New("divisão por zero")
-	}
-	return a / b, nil
-}
-
-// A função main é onde a execução do programa começa.
-func main() {
-	// Chamando a função divide com 10 como dividendo e 2 como divisor
-	resultado, err := divide(10, 2)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Println("Resultado da divisão:", resultado)
-	}
-
-	// Chamando a função divide com 10 como dividendo e 0 como divisor
-	resultado, err = divide(10, 0)
-	if err != nil {
-		fmt.Println("Erro:", err)
-	} else {
-		fmt.Println("Resultado da divisão:", resultado)
-	}
-}
-```
-
-Neste exemplo, a função **divide** tem dois retornos: resultado do tipo int e erro do tipo error. Se o divisor for zero, ela retorna um erro. No main, verificamos se há um erro após chamar a função divide e imprimimos a mensagem de erro.
-
-
 ## Loops
 
 Loops são usados para repetir um bloco de código um determinado número de vezes. No Go, existe loop `for`,porém diferente de outras linguagens, o Go não possui um loop `while`.
@@ -726,7 +655,7 @@ type Client struct {
 }
 
 func main() {
-	
+
 	// Criando instâncias de Client
 	child := Client{
 		Name:   "João",
@@ -781,11 +710,155 @@ Ao imprimir as informações, podemos ver que `child` tem um "pai" definido como
 
 Conforme o exemplo de código acima, `Name` é um campo público, permitindo acesso fora da struct, enquanto `age` é privado e só pode ser acessado dentro do mesmo pacote. É uma técnica comum em Go para controlar a visibilidade e encapsulamento dos dados em uma struct.
 
+
 ## Funções
 
-Em Go métodos 
+Funções em Go são blocos de código independentes que podem ser chamados em qualquer parte do programa, e são definidas fora de qualquer estrutura ou tipo e podem ser chamadas com argumentos.
+
+Para declarar uma função, use a seguinte sintaxe:
+
+
+```golang
+package main
+
+import (
+	"fmt"
+)
+
+func hello(nome string) {
+	fmt.Println("Olá", nome, "!")
+}
+
+func sum(a, b int) int {
+	return a + b
+}
+
+func main() {
+
+	hello("João")
+
+	fmt.Println("Sua idade é:", sum(10, 20), "anos")
+}
+```
+
+
+### Funções com múltiplos retornos
+
+Em Go é comum usar funções com mais de um retorno, especialmente para lidar com possíveis erros. Por exemplo:
+
+```golang
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// Função divide recebe dois inteiros e retorna um inteiro e um erro
+func divide(a, b int) (int, error) {
+	if b == 0 {
+		return 0, errors.New("divisão por zero")
+	}
+	return a / b, nil
+}
+
+// A função main é onde a execução do programa começa.
+func main() {
+	// Chamando a função divide com 10 como dividendo e 2 como divisor
+	resultado, err := divide(10, 2)
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println("Resultado da divisão:", resultado)
+	}
+
+	// Chamando a função divide com 10 como dividendo e 0 como divisor
+	resultado, err = divide(10, 0)
+	if err != nil {
+		fmt.Println("Erro:", err)
+	} else {
+		fmt.Println("Resultado da divisão:", resultado)
+	}
+}
+```
+
+Neste exemplo, a função **divide** tem dois retornos: resultado do tipo int e erro do tipo error. Se o divisor for zero, ela retorna um erro. No main, verificamos se há um erro após chamar a função divide e imprimimos a mensagem de erro. Caso contrário, imprimimos o resultado da divisão.
+
+## Métodos
+
+Métodos em Go são funções associadas a um tipo específico, chamado receptor (receiver). São definidos dentro do bloco de declaração de um tipo e têm acesso aos campos desse tipo. Métodos são chamados em uma instância (ou ponteiro) do tipo ao qual estão associados.
+
+```golang
+package main
+
+import "fmt"
+
+type Client struct {
+	Name string
+	Age  int
+}
+
+// Método de Pessoa para exibir os detalhes
+func (c Client) ShowDetails() {
+	fmt.Println("Nome:", c.Name)
+	fmt.Println("Idade:", c.Age)
+}
+
+func main() {
+	client := Client{Name: "Ana", Age: 30}
+	client.ShowDetails()
+}
+```
+
+No exemplo acima, `ShowDetails` é um método associado ao tipo cliente. Ele pode ser chamado em uma instância de `Client` para exibir os detalhes dessa pessoa. Em resumo, os métodos são como funções específicas de um tipo, enquanto as funções em Go podem ser chamadas independentemente de qualquer tipo.
+
+
+### Métodos com Ponteiro
+
+Em Go, métodos com ponteiro permitem modificar diretamente a estrutura original em que são chamados. Isso é particularmente útil ao lidar com estruturas de dados complexas ou quando queremos preservar as mudanças feitas nos métodos.
+
+Vamos considerar a estrutura `Category` e os métodos `HasParent` e `SetFather`:
+
+```golang
+package main
+
+import "fmt"
+
+type Category struct {
+	Name   string
+	Parent *Category
+}
+
+func (c Category) HasParent() bool {
+	return c.Parent != nil
+}
+
+func (c *Category) SetFather(father *Category) {
+	c.Parent = father
+}
+
+func main() {
+	// Criando uma categoria "Notebooks" sem pai
+	notebooks := Category{Name: "Notebooks", Parent: nil}
+
+	// Verificando se "Notebooks" tem um pai (deve retornar false)
+	fmt.Println("Notebooks tem pai?", notebooks.HasParent())
+
+	// Criando uma categoria "Tecnologia" como pai de "Notebooks"
+	tecnologia := Category{Name: "Tecnologia", Parent: nil}
+	notebooks.SetFather(&tecnologia)
+
+	// Verificando se "Notebooks" tem um pai agora (deve retornar true)
+	fmt.Println("Notebooks tem pai?", notebooks.HasParent())
+	fmt.Println("Pai de Notebooks:", notebooks.Parent.Name) // Imprime "Tecnologia"
+}
+```
+
+Neste exemplo, `HasParent` verifica se uma categoria tem um pai, enquanto `SetFather` atribui um pai a uma categoria. Ambos os métodos são definidos com um receptor de ponteiro (*Category), permitindo que modifiquem diretamente a estrutura Category original em que são chamados.
+
 
 ## Gerando Binário no Ubuntu
+
 
 #### Gerando o arquivo binário
 
