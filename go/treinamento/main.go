@@ -2,60 +2,32 @@ package main
 
 import "fmt"
 
-// Definindo um tipo Veiculo básico
-type Veiculo struct {
-	Modelo string
-	Ano    int
+// Definindo a interface Animal
+type Animal interface {
+	Som() string
+	Andar() string
 }
 
-// Método para parar um veículo
-func (v Veiculo) Parar() {
-	fmt.Printf("O veículo %s está parado.\n", v.Modelo)
+// Definindo uma struct Dog que implementa a interface Animal
+type Dog struct {
+	Nome string
 }
 
-// Definindo um tipo Carro que incorpora Veiculo
-type Carro struct {
-	Veiculo // Incorporação do tipo Veiculo
-	Motor   string
+// Implementação do método Som para Dog
+func (d Dog) Som() string {
+	return "Au Au"
 }
 
-// Método para o carro andar
-func (c Carro) Andar() {
-	fmt.Printf("O carro %s está andando com seu motor %s...\n", c.Modelo, c.Motor)
-}
-
-// Definindo um tipo Barco que incorpora Veiculo
-type Barco struct {
-	Veiculo // Incorporação do tipo Veiculo
-	Helice  string
-}
-
-// Método para o barco navegar
-func (b Barco) Navegar() {
-	fmt.Printf("O barco %s está navegando com sua hélice %s...\n", b.Modelo, b.Helice)
+// Implementação do método Andar para Dog
+func (d Dog) Andar() string {
+	return fmt.Sprintf("%s está caminhando...", d.Nome)
 }
 
 func main() {
+	// Criando uma instância de Dog
+	cachorro := Dog{Nome: "Rex"}
 
-	// Criando um Carro
-	carro := Carro{
-		Veiculo: Veiculo{Modelo: "Fusca", Ano: 1972},
-		Motor:   "V8",
-	}
-
-	// Criando um Barco
-	barco := Barco{
-		Veiculo: Veiculo{Modelo: "Lancha", Ano: 2020},
-		Helice:  "Marinha 3000",
-	}
-
-	// Chamando o método Andar para o Carro
-	carro.Andar()
-
-	// Chamando o método Navegar para o Barco
-	barco.Navegar()
-
-	// Chamando o método Parar para ambos os veículos
-	carro.Parar()
-	barco.Parar()
+	// Usando métodos da interface Animal
+	fmt.Println("Som do", cachorro.Nome+":", cachorro.Som())
+	fmt.Println("Movimento do", cachorro.Nome+":", cachorro.Andar())
 }

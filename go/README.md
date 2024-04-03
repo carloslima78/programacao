@@ -857,9 +857,10 @@ func main() {
 Neste exemplo, `HasParent` verifica se uma categoria tem um pai, enquanto `SetFather` atribui um pai a uma categoria. Ambos os métodos são definidos com um receptor de ponteiro (*Category), permitindo que modifiquem diretamente a estrutura Category original em que são chamados.
 
 
-## Herança
+## Herança (Embeding)
 
 Em Go, não existe o conceito de herança da forma tradicional presente em algumas linguagens de programação orientada a objetos. Em vez disso, Go utiliza composição e interfaces para alcançar reutilização de código e polimorfismo.
+
 
 ### Composição em Go
 
@@ -945,6 +946,58 @@ Neste exemplo, criamos os tipos Veiculo, Carro, e Barco, onde Carro e Barco herd
 - O método `Parar` é comum a todos os tipos, pois um veículo de qualquer tipo pode ser parado.
 
 No `main`, criamos uma instância de `Carro` e `Barco` com seus respectivos atributos específicos (`Motor` e `Helice`), e demonstramos o uso dos métodos `Andar`, `Navegar`, e `Parar` para cada veículo. Esta abordagem de herança e atributos específicos é bastante útil para representar objetos do mundo real de forma clara e eficiente em Go.
+
+
+## Interface
+
+Em Go, interfaces são conjuntos de métodos que definem um comportamento. Assim como nas demais linguagens, uma interface define um contrato que especifica quais métodos uma struct deve implementar para satisfazer a interface. Isso permite que diferentes tipos possam ser tratados de maneira uniforme se implementarem os métodos da interface.
+
+Um exemplo simples de uma interface em Go:
+
+
+```golang
+package main
+
+import "fmt"
+
+// Definindo a interface Animal
+type Animal interface {
+	Som() string
+	Andar() string
+}
+
+// Definindo uma struct Dog que implementa a interface Animal
+type Dog struct {
+	Nome string
+}
+
+// Implementação do método Som para Dog
+func (d Dog) Som() string {
+	return "Au Au"
+}
+
+// Implementação do método Andar para Dog
+func (d Dog) Andar() string {
+	return fmt.Sprintf("%s está caminhando...", d.Nome)
+}
+
+func main() {
+	// Criando uma instância de Dog
+	cachorro := Dog{Nome: "Rex"}
+
+	// Usando métodos da interface Animal
+	fmt.Println("Som do", cachorro.Nome+":", cachorro.Som())
+	fmt.Println("Movimento do", cachorro.Nome+":", cachorro.Andar())
+}
+```
+
+Neste exemplo:
+
+- `Animal` é uma interface que define dois métodos: `Som` e `Andar`.
+- `Dog` é uma struct que implementa a interface `Animal` ao definir os métodos `Som` e `Andar`.
+- No `main`, criamos um Dog chamado `cachorro` e chamamos seus métodos `Som` e `Andar`, que são métodos da interface `Animal`. 
+
+Este exemplo demonstra como uma interface em Go permite que diferentes tipos (como `Dog`, `Cat`, `Bird`, etc.) podem ser tratados de forma genérica se implementarem os métodos da interface. Isso proporciona flexibilidade e reutilização de código.
 
 ## Gerando Binário no Ubuntu
 
