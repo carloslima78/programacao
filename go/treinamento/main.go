@@ -2,32 +2,36 @@ package main
 
 import "fmt"
 
-// Definindo a interface Animal
-type Animal interface {
-	Som() string
-	Andar() string
+func enviarDados(ch chan<- int) {
+	for i := 1; i <= 5; i++ {
+		ch <- i // Envia valores para o channel
+		fmt.Println("Valor enviado:", i)
+	}
+	close(ch) // Fecha o channel após enviar todos os valores
 }
 
-// Definindo uma struct Dog que implementa a interface Animal
-type Dog struct {
-	Nome string
-}
-
-// Implementação do método Som para Dog
-func (d Dog) Som() string {
-	return "Au Au"
-}
-
-// Implementação do método Andar para Dog
-func (d Dog) Andar() string {
-	return fmt.Sprintf("%s está caminhando...", d.Nome)
+func receberDados(ch <-chan int) {
+	for {
+		valor, ok := <-ch // Recebe valores do channel
+		if !ok {
+			fmt.Println("Channel fechado.")
+			return
+		}
+		fmt.Println("Valor recebido:", valor)
+	}
 }
 
 func main() {
-	// Criando uma instância de Dog
-	cachorro := Dog{Nome: "Rex"}
+	// Criar um channel
+	dados := make(chan int)
 
-	// Usando métodos da interface Animal
-	fmt.Println("Som do", cachorro.Nome+":", cachorro.Som())
-	fmt.Println("Movimento do", cachorro.Nome+":", cachorro.Andar())
+	// Executar a função para enviar dados em uma goroutine
+	go enviarDados(dados)
+
+	// Executar a função para receber dados em outra goroutine
+	go receberDados(dados)
+
+	// Aguardar um pouco para não terminar imediatamente
+	fmt.Println("Aguardando...")
+	fmt.Scanln()
 }
